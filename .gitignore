@@ -1,0 +1,15 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Logs
+logs/
+
+# Mac file
+.DS_Store
+
+# OS files
+Thumbs.db
