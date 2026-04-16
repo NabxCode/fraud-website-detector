@@ -1,0 +1,18 @@
+Model loaded from models/phishing_detector.pkl
+Starting Flask API on port 5001
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.8.0.7:5001
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 228-905-661
+127.0.0.1 - - [11/Apr/2026 22:39:25] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Apr/2026 22:39:27] "GET /health HTTP/1.1" 200 -
+127.0.0.1 - - [11/Apr/2026 22:39:35] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [11/Apr/2026 22:39:39] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [11/Apr/2026 22:39:46] "POST /predict HTTP/1.1" 200 -
+127.0.0.1 - - [11/Apr/2026 22:39:53] "GET /health HTTP/1.1" 200 -
