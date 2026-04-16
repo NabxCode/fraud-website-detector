@@ -1,6 +1,7 @@
 import os
 import gradio as gr
 import joblib
+import pandas as pd
 from typing import Dict, Tuple
 from src.feature_extraction import URLFeatureExtractor
 
@@ -18,17 +19,17 @@ def analyze_url(url: str) -> Tuple[str, str, Dict]:
 
         # Keep only numeric features
         numeric_features = {
-            k: v for k, v in features.items()
-            if isinstance(v, (int, float))
+            k: v for k, v in features.items() if isinstance(v, (int, float))
         }
 
-        # ✅ Convert dict → list (FIXED)
-        feature_values = list(numeric_features.values())
+        # Convert to DataFrame (FIX)
+        feature_df = pd.DataFrame([numeric_features])
 
-        proba = model.predict_proba([feature_values])[0]
-        pred = model.predict([feature_values])[0]
+        # Predictions
+        proba = model.predict_proba(feature_df)[0]
+        pred = model.predict(feature_df)[0]
 
-        # Format result
+        # Result formatting
         if pred == 1:
             result_text = f"🔴 PHISHING DETECTED\n\n"
             result_text += f"Confidence: {max(proba):.1%}\n"
@@ -65,20 +66,35 @@ def analyze_url(url: str) -> Tuple[str, str, Dict]:
 
 
 # UI
-with gr.Blocks(title="Fraud Website Detector") as app:
+with gr.Blocks(title="AI Phishing Detector") as app:
 
     gr.Markdown("""
-    # 🔍 Fraud Website Detection System  
-    ### AI-Based Phishing URL Checker
+    # 🔐 AI Phishing Detector  
+    ### Real-time Fraud URL Analysis System
     """)
 
-    url_input = gr.Textbox(label="Enter URL", placeholder="https://example.com")
+    url_input = gr.Textbox(
+        label="Enter URL",
+        placeholder="https://example.com"
+    )
+
+    # Sample URLs (for demo)
+    gr.Examples(
+        examples=[
+            "https://google.com",
+            "https://facebook.com",
+            "http://192.168.1.1/login",
+            "http://paypal-login-secure.com",
+            "http://free-gift-card-amazon.xyz"
+        ],
+        inputs=url_input
+    )
 
     analyze_btn = gr.Button("Analyze URL")
 
     result_output = gr.Textbox(label="Result", lines=6)
     warning_output = gr.Textbox(label="Warnings", lines=6)
-    feature_output = gr.JSON(label="Features")
+    feature_output = gr.JSON(label="Extracted Features")
 
     analyze_btn.click(
         fn=analyze_url,
@@ -87,7 +103,7 @@ with gr.Blocks(title="Fraud Website Detector") as app:
     )
 
 
-# 🚀 Launch for Render
+# Launch for Render
 port = int(os.environ.get("PORT", 7860))
 
 app.launch(
