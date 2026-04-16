@@ -5,8 +5,14 @@ import pandas as pd
 from typing import Dict, Tuple
 from src.feature_extraction import URLFeatureExtractor
 
-# Load model and extractor
-model = joblib.load("models/phishing_detector.pkl")
+# Load model properly (handles dict case)
+loaded = joblib.load("models/phishing_detector.pkl")
+
+if isinstance(loaded, dict):
+    model = loaded.get("model")
+else:
+    model = loaded
+
 extractor = URLFeatureExtractor()
 
 
@@ -22,7 +28,7 @@ def analyze_url(url: str) -> Tuple[str, str, Dict]:
             k: v for k, v in features.items() if isinstance(v, (int, float))
         }
 
-        # Convert to DataFrame (FIX)
+        # Convert to DataFrame
         feature_df = pd.DataFrame([numeric_features])
 
         # Predictions
@@ -78,14 +84,29 @@ with gr.Blocks(title="AI Phishing Detector") as app:
         placeholder="https://example.com"
     )
 
-    # Sample URLs (for demo)
+    # 🔥 MORE PROFESSIONAL EXAMPLES
+    gr.Markdown("### 🧪 Try Sample URLs")
+
     gr.Examples(
         examples=[
+            # ✅ Legitimate
             "https://google.com",
             "https://facebook.com",
+            "https://amazon.in",
+            "https://github.com",
+            "https://microsoft.com",
+            "https://openai.com",
+
+            # 🔴 Suspicious / Phishing
             "http://192.168.1.1/login",
             "http://paypal-login-secure.com",
-            "http://free-gift-card-amazon.xyz"
+            "http://free-gift-card-amazon.xyz",
+            "http://secure-update-bank-account.net",
+            "http://verify-your-account-now.com",
+            "http://login-facebook-security-alert.com",
+            "http://update-paytm-wallet-free-cash.in",
+            "http://amazon-prize-winner.click",
+            "http://bankofindia-secure-login-alert.com"
         ],
         inputs=url_input
     )
