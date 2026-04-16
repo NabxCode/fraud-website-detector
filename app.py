@@ -17,10 +17,16 @@ def analyze_url(url: str) -> Tuple[str, str, Dict]:
         features = extractor.extract_all_features(url)
 
         # Keep only numeric features
-        numeric_features = {k: v for k, v in features.items() if isinstance(v, (int, float))}
+        numeric_features = {
+            k: v for k, v in features.items()
+            if isinstance(v, (int, float))
+        }
 
-        proba = model.predict_proba([numeric_features])[0]
-        pred = model.predict([numeric_features])[0]
+        # ✅ Convert dict → list (FIXED)
+        feature_values = list(numeric_features.values())
+
+        proba = model.predict_proba([feature_values])[0]
+        pred = model.predict([feature_values])[0]
 
         # Format result
         if pred == 1:
@@ -44,7 +50,10 @@ def analyze_url(url: str) -> Tuple[str, str, Dict]:
         if features.get("typosquatting_score", 0):
             warnings.append("• Possible brand impersonation")
 
-        if features.get("domain_age_days", -1) >= 0 and features.get("domain_age_days", 999) < 30:
+        if (
+            features.get("domain_age_days", -1) >= 0
+            and features.get("domain_age_days", 999) < 30
+        ):
             warnings.append("• Domain is very new")
 
         warning_text = "\n".join(warnings) if warnings else "No major warnings"
@@ -78,7 +87,7 @@ with gr.Blocks(title="Fraud Website Detector") as app:
     )
 
 
-# Launch for Render
+# 🚀 Launch for Render
 port = int(os.environ.get("PORT", 7860))
 
 app.launch(
