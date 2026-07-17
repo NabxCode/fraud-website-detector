@@ -1,0 +1,739 @@
+/* ── Root tokens (vivid dark palette) ── */
+:root {
+    --bg: #0a0b12;
+    --surface: #151726;
+    --surface2: #1d2036;
+    --border: #2b2f4a;
+    --accent: #8b5cf6;
+    --accent2: #22d3ee;
+    --safe: #34d399;
+    --danger: #fb5170;
+    --text: #f1f5f9;
+    --muted: #96a0b8;
+    --radius: 12px;
+    --gap: 20px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Ubuntu, sans-serif;
+    --mono: 'Cascadia Code', 'Fira Code', Consolas, 'Courier New', monospace;
+}
+
+/* ── Page base ── */
+body,
+.gradio-container {
+    background: var(--bg) !important;
+    font-family: var(--font) !important;
+    color: var(--text) !important;
+}
+
+/* ── Tighten Gradio's default block/row spacing so sections don't float apart ── */
+.gradio-container .contain {
+    padding: 28px 36px !important;
+}
+
+.gradio-container .block {
+    margin: 0 !important;
+}
+
+.gradio-container .form {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.gradio-container .gap {
+    gap: 12px !important;
+}
+
+.gradio-container>.main>div {
+    gap: 0 !important;
+}
+
+/* ── Section wrapper — uniform spacing controlled in ONE place ── */
+.section-block {
+    margin: 0 0 var(--gap) 0 !important;
+}
+
+/* ── Coloured divider bar (replaces plain <hr>) ── */
+.section-divider {
+    height: 4px !important;
+    width: 100% !important;
+    margin: var(--gap) 0 !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%) !important;
+    opacity: 0.85 !important;
+}
+
+/* ── Header ── */
+#header-md {
+    margin-bottom: var(--gap) !important;
+}
+
+#header-md h1 {
+    font-size: 2.1rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px !important;
+}
+
+#header-md p {
+    color: var(--muted) !important;
+    font-size: 0.92rem !important;
+    margin-top: 0 !important;
+}
+
+/* ── API status row ── */
+#api-row {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    margin-bottom: 0 !important;
+}
+
+#api-row>* {
+    flex: 1 !important;
+}
+
+/* Kill Gradio's default block wrapper (border/bg/padding) on these two —
+   the inner textarea/button below supplies the actual visible box. */
+#api-row .block,
+#api-row .form {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    height: 52px !important;
+}
+
+#api_status_box textarea,
+#api_status_box input {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    color: var(--text) !important;
+    font-family: var(--font) !important;
+    font-size: 0.9rem !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    line-height: 52px !important;
+    padding: 0 14px !important;
+    display: block !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    resize: none !important;
+    overflow: hidden !important;
+}
+
+#refresh_btn {
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    border-radius: var(--radius) !important;
+    border: 1px solid var(--border) !important;
+    background: var(--surface2) !important;
+    color: var(--text) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: border-color 0.2s, background 0.2s !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+}
+
+#refresh_btn:hover {
+    border-color: var(--accent) !important;
+    background: var(--surface) !important;
+    color: var(--accent2) !important;
+}
+
+/* ── URL input ── */
+#url_input textarea,
+#url_input input,
+#feat_url_input textarea,
+#feat_url_input input {
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    color: var(--text) !important;
+    font-family: var(--mono) !important;
+    font-size: 0.95rem !important;
+    padding: 14px 16px !important;
+    transition: border-color 0.2s !important;
+    min-height: 48px !important;
+}
+
+#url_input textarea:focus,
+#url_input input:focus,
+#feat_url_input textarea:focus,
+#feat_url_input input:focus {
+    border-color: var(--accent) !important;
+    outline: none !important;
+}
+
+/* ── Example-loaded toast ── */
+#example_status {
+    min-height: 0 !important;
+    margin: 6px 0 0 2px !important;
+}
+
+.example-loaded-toast {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    color: var(--safe) !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    opacity: 0;
+    animation: exampleToastFade 2s ease forwards;
+}
+
+.example-loaded-url {
+    color: var(--accent2) !important;
+    font-family: var(--mono) !important;
+    font-weight: 500 !important;
+}
+
+@keyframes exampleToastFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    12% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    78% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ── Analyse button ── */
+#analyze_btn,
+#feat_extract_btn {
+    height: 52px !important;
+    min-height: 52px !important;
+    border-radius: var(--radius) !important;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee) !important;
+    border: none !important;
+    color: #05060a !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    cursor: pointer !important;
+    transition: opacity 0.2s, transform 0.1s !important;
+    width: 100% !important;
+    margin: 12px 0 0 0 !important;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35) !important;
+}
+
+#analyze_btn:hover,
+#feat_extract_btn:hover {
+    opacity: 0.92 !important;
+    transform: translateY(-1px) !important;
+}
+
+#analyze_btn:active,
+#feat_extract_btn:active {
+    transform: translateY(0) !important;
+}
+
+/* ── Result & warning boxes — equal height ── */
+#result_box,
+#warning_box {
+    flex: 1 !important;
+}
+
+#result_box textarea,
+#warning_box textarea {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    color: var(--text) !important;
+    font-family: var(--font) !important;
+    font-size: 0.93rem !important;
+    line-height: 1.75 !important;
+    min-height: 200px !important;
+    height: 200px !important;
+    max-height: 200px !important;
+    resize: none !important;
+    padding: 14px 16px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+
+/* Scrollbar styling for result/warning boxes — always visible, prominent */
+#result_box textarea::-webkit-scrollbar,
+#warning_box textarea::-webkit-scrollbar {
+    width: 10px !important;
+}
+
+#result_box textarea::-webkit-scrollbar-track,
+#warning_box textarea::-webkit-scrollbar-track {
+    background: var(--surface2) !important;
+    border-radius: 4px !important;
+}
+
+#result_box textarea::-webkit-scrollbar-thumb,
+#warning_box textarea::-webkit-scrollbar-thumb {
+    background: var(--accent) !important;
+    border-radius: 4px !important;
+    border: 2px solid var(--surface2) !important;
+}
+
+#result_box textarea::-webkit-scrollbar-thumb:hover,
+#warning_box textarea::-webkit-scrollbar-thumb:hover {
+    background: var(--accent2) !important;
+}
+
+/* Make the row itself stretch children equally */
+#output-row {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
+}
+
+#output-row>div {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#output-row>div>label {
+    flex: 1 !important;
+}
+
+/* ── Examples ── */
+.gr-samples-table,
+.gr-examples table {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    overflow: hidden !important;
+    font-family: var(--mono) !important;
+    font-size: 0.85rem !important;
+}
+
+.gr-samples-table td,
+.gr-examples td {
+    background: var(--surface) !important;
+    color: var(--muted) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 10px 16px !important;
+}
+
+.gr-samples-table tr:hover td,
+.gr-examples tr:hover td {
+    background: var(--surface2) !important;
+    color: var(--accent2) !important;
+    cursor: pointer !important;
+}
+
+/* ── Accordion / feature boxes ── */
+.feature-accordion details {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    margin-bottom: 8px !important;
+    overflow: hidden !important;
+    transition: border-color 0.2s !important;
+}
+
+.feature-accordion details[open] {
+    border-color: var(--accent) !important;
+}
+
+.feature-accordion summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 13px 18px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    color: var(--text) !important;
+    list-style: none !important;
+    user-select: none !important;
+}
+
+.feature-accordion summary::-webkit-details-marker {
+    display: none !important;
+}
+
+.feature-accordion summary .feat-arrow {
+    color: var(--accent2) !important;
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+    transition: transform 0.2s !important;
+}
+
+.feature-accordion details[open] summary .feat-arrow {
+    transform: rotate(180deg) !important;
+}
+
+.feature-accordion .feat-body {
+    padding: 0 18px 14px 18px !important;
+    font-size: 0.88rem !important;
+    color: var(--muted) !important;
+    line-height: 1.7 !important;
+    border-top: 1px solid var(--border) !important;
+    padding-top: 12px !important;
+}
+
+.feature-accordion .feat-num {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--surface2) !important;
+    border-radius: 6px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: var(--accent2) !important;
+    font-weight: 700 !important;
+    margin-right: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Section headings ── */
+.section-heading {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    margin: 0 0 12px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.section-heading::before {
+    content: "" !important;
+}
+
+/* ── Footer ── */
+#footer-md p {
+    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+
+/* ── Label text ── */
+label span,
+.gr-box label span {
+    color: var(--muted) !important;
+    font-size: 0.83rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+    text-transform: uppercase !important;
+}
+
+/* ── Tabs ── */
+.tabs {
+    border: none !important;
+    background: transparent !important;
+}
+
+.tab-nav {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    margin-bottom: var(--gap) !important;
+}
+
+.tab-nav button {
+    border-radius: 8px !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--muted) !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    padding: 10px 18px !important;
+    transition: background 0.2s, color 0.2s !important;
+}
+
+.tab-nav button.selected {
+    background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+    color: #05060a !important;
+}
+
+/* ── Batch analysis ── */
+#batch_input textarea {
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    color: var(--text) !important;
+    font-family: var(--mono) !important;
+    font-size: 0.9rem !important;
+    padding: 14px 16px !important;
+}
+
+#batch_input textarea:focus {
+    border-color: var(--accent) !important;
+    outline: none !important;
+}
+
+#batch_btn {
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: var(--radius) !important;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee) !important;
+    border: none !important;
+    color: #05060a !important;
+    font-weight: 700 !important;
+    margin: 12px 0 !important;
+}
+
+#batch_output table {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+}
+
+#batch_output th {
+    background: var(--surface2) !important;
+    color: var(--text) !important;
+    font-size: 0.82rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+}
+
+#batch_output td {
+    background: var(--surface) !important;
+    color: var(--muted) !important;
+    font-family: var(--mono) !important;
+    font-size: 0.86rem !important;
+    border-color: var(--border) !important;
+}
+
+/* ── Feature extraction grid ── */
+.feature-extract-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feat-category {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 14px 18px !important;
+}
+
+.feat-category-title {
+    font-weight: 700 !important;
+    color: var(--accent2) !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.feat-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 6px 0 !important;
+    font-size: 0.86rem !important;
+}
+
+.feat-row-name {
+    color: var(--text) !important;
+    flex: 1 !important;
+}
+
+.feat-row-key {
+    color: var(--muted) !important;
+    font-family: var(--mono) !important;
+    font-size: 0.76rem !important;
+}
+
+.feat-val {
+    min-width: 42px !important;
+    text-align: center !important;
+    padding: 2px 10px !important;
+    border-radius: 999px !important;
+    font-family: var(--mono) !important;
+    font-weight: 700 !important;
+    font-size: 0.78rem !important;
+}
+
+.feat-val-good {
+    background: rgba(52, 211, 153, 0.15) !important;
+    color: var(--safe) !important;
+}
+
+.feat-val-bad {
+    background: rgba(251, 81, 112, 0.15) !important;
+    color: var(--danger) !important;
+}
+
+/* ── Model insights ── */
+#importance-heading-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+#importance-heading-row .section-heading {
+    flex: 1 !important;
+    margin-top: 0 !important;
+}
+
+#importance_refresh_btn {
+    height: 34px !important;
+    min-height: 34px !important;
+    width: auto !important;
+    flex: none !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border) !important;
+    background: var(--surface2) !important;
+    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    padding: 0 14px !important;
+    transition: border-color 0.2s, color 0.2s !important;
+}
+
+#importance_refresh_btn:hover {
+    border-color: var(--accent) !important;
+    color: var(--accent2) !important;
+}
+
+.insights-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+
+.insight-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 18px !important;
+    text-align: center !important;
+}
+
+.insight-value {
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #8b5cf6, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.insight-label {
+    color: var(--muted) !important;
+    font-size: 0.82rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.4px !important;
+    margin-top: 4px !important;
+}
+
+.importance-chart {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 16px 20px !important;
+    margin-top: var(--gap) !important;
+}
+
+.importance-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 6px 0 !important;
+}
+
+.importance-rank {
+    width: 22px !important;
+    color: var(--muted) !important;
+    font-size: 0.78rem !important;
+    font-family: var(--mono) !important;
+}
+
+.importance-label {
+    width: 320px !important;
+    flex-shrink: 0 !important;
+    color: var(--text) !important;
+    font-size: 0.85rem !important;
+    font-family: var(--mono) !important;
+}
+
+.importance-short {
+    color: var(--muted) !important;
+    font-family: var(--font) !important;
+    font-size: 0.78rem !important;
+}
+
+.importance-bar-track {
+    flex: 1 !important;
+    height: 10px !important;
+    background: var(--surface2) !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+}
+
+.importance-bar-fill {
+    height: 100% !important;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)) !important;
+    border-radius: 999px !important;
+}
+
+.importance-pct {
+    width: 56px !important;
+    text-align: right !important;
+    color: var(--muted) !important;
+    font-family: var(--mono) !important;
+    font-size: 0.78rem !important;
+}
+
+/* ── Scrollbar — always visible, prominent ── */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+    border: 2px solid var(--surface2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent2);
+}
+
+/* ── Loading / disabled state for action buttons ──
+   Fires the moment a click handler sets interactive=False, giving an
+   immediate visual cue (dimmed + "not-allowed" cursor + no hover lift)
+   that the app registered the click and is working on it. */
+#analyze_btn:disabled,
+#feat_extract_btn:disabled,
+#batch_btn:disabled,
+#refresh_btn:disabled,
+#importance_refresh_btn:disabled {
+    opacity: 0.55 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    filter: saturate(0.6) !important;
+}
